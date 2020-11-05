@@ -1,0 +1,42 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+#load csv into R
+
+Mark_Rothko <- read.csv("RACHELLECHA_COLLECTED_PAIR.csv")
+
+Mark_Rothko
+```
+
+
+```{r}
+
+#deleted unnecessary columns 
+Mark_Rothko$Auction.House <- NULL
+Mark_Rothko$Low.and.High.Estimates <- NULL
+Mark_Rothko$Currency.of.Transaction <- NULL
+Mark_Rothko$Website.Link <- NULL
+
+#Renamed columns so there are no "." in the column name
+names(Mark_Rothko)[1] <- "Artist Name"
+names(Mark_Rothko)[2] <- "Artwork Title"
+names(Mark_Rothko)[3] <- "Second Sale Date"
+names(Mark_Rothko)[4] <- "Second Realized Price"
+
+#Added new columns with correct value for First Sale Date/Price
+Mark_Rothko$"First Sale Date" <- Mark_Rothko$"Second Sale Date"[2]
+Mark_Rothko$"First Realized Price" <- Mark_Rothko$"Second Realized Price"[2]
+
+#deleted second row
+Mark_Rothko <- Mark_Rothko[-c(2), ]
+
+#write as .csv
+write.csv(Mark_Rothko, "RACHELLECHA_PRICES_AND_DATES.csv")
+
+Mark_Rothko
+
+```
+
